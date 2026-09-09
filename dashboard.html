@@ -16,10 +16,11 @@ td.st{font-weight:600}td.st.ok,td.ok{color:var(--ok)}td.warn{color:var(--warn)}t
 .legend{color:var(--dim);font-size:12px;margin-top:6px}.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin:0 6px 0 10px;vertical-align:-1px}
 ul{padding-left:18px}li{margin:6px 0}.q{display:block;color:var(--dim);font-size:13px}.t{color:var(--accent);font-variant-numeric:tabular-nums;margin-right:8px}
 .g{display:inline-block;padding:1px 7px;border-radius:999px;font-size:11px;font-weight:600;margin-right:6px}.gA{background:#1f4d3a;color:#7fd1a8}.gB{background:#1e3a5c;color:#8fb4ff}
+.banner{background:#4d2626;color:#ffd7d7;border:1px solid #7a3b3b;border-radius:12px;padding:12px 14px;margin:18px 0 4px;font-weight:600}.banner a{color:#ffd7d7}
 .foot{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);color:var(--dim);font-size:12px}.foot a{color:#8fb4ff}
 </style></head><body><div class="wrap">
 <div class="eyebrow">ezra · 15 · sleep</div><h1>Live dashboard</h1>
-<div class="sub">generated Tue Sep 8, 8:40 PM · regenerates every tick (08:15 / 20:15) · data-driven, nothing hand-typed · his words are never rendered here</div>
+<div class="sub">generated Tue Sep 8, 11:32 PM · regenerates every tick (08:15 / 20:15) · data-driven, nothing hand-typed · his words are never rendered here</div>
 <div class="tiles">
 <div class="tile warn"><span class="v">0</span><span class="l">nights on record</span><span class=s>first night lands tomorrow morning</span></div>
 <div class="tile warn"><span class="v">0/14</span><span class="l">baseline B0</span><span class=s>2026-09-08 → 2026-09-21</span></div>
@@ -29,7 +30,15 @@ ul{padding-left:18px}li{margin:6px 0}.q{display:block;color:var(--dim);font-size
 <div class="tile warn"><span class="v">none</span><span class="l">morning question</span><span class=s>needs his explicit yes</span></div>
 </div>
 
-<h2>Nightly sleep</h2>
+
+<h2>Sleep pattern (bedtime → wake, one bar per night)</h2>
+<svg viewBox="0 0 860 246" class="viz" role="img" aria-label="Sleep pattern, last 14 nights"><rect width="860" height="246" fill="var(--surface-1)" rx="12"/><line x1="60" y1="30" x2="60" y2="218" stroke="var(--grid)" stroke-dasharray="2 4"/><text x="60" y="22" class="ax" text-anchor="middle">6p</text><line x1="147" y1="30" x2="147" y2="218" stroke="var(--grid)" stroke-dasharray="2 4"/><text x="147" y="22" class="ax" text-anchor="middle">8p</text><line x1="234" y1="30" x2="234" y2="218" stroke="var(--grid)" stroke-dasharray="2 4"/><text x="234" y="22" class="ax" text-anchor="middle">10p</text><line x1="321" y1="30" x2="321" y2="218" stroke="var(--grid)" stroke-dasharray="2 4"/><text x="321" y="22" class="ax" text-anchor="middle">12a</text><line x1="408" y1="30" x2="408" y2="218" stroke="var(--grid)" stroke-dasharray="2 4"/><text x="408" y="22" class="ax" text-anchor="middle">2a</text><line x1="496" y1="30" x2="496" y2="218" stroke="var(--grid)" stroke-dasharray="2 4"/><text x="496" y="22" class="ax" text-anchor="middle">4a</text><line x1="583" y1="30" x2="583" y2="218" stroke="var(--grid)" stroke-dasharray="2 4"/><text x="583" y="22" class="ax" text-anchor="middle">6a</text><line x1="670" y1="30" x2="670" y2="218" stroke="var(--grid)" stroke-dasharray="2 4"/><text x="670" y="22" class="ax" text-anchor="middle">8a</text><line x1="757" y1="30" x2="757" y2="218" stroke="var(--grid)" stroke-dasharray="2 4"/><text x="757" y="22" class="ax" text-anchor="middle">10a</text><line x1="844" y1="30" x2="844" y2="218" stroke="var(--grid)" stroke-dasharray="2 4"/><text x="844" y="22" class="ax" text-anchor="middle">12p</text><text x="430" y="129" class="empty" text-anchor="middle">no nights yet — each night becomes one bar from bedtime to wake; weekend rows tint gold</text></svg>
+<div class="legend"><i style="background:var(--series-1)"></i>school night<i style="background:var(--accent)"></i>weekend<i style="background:var(--bg);border:1px solid var(--line)"></i>awake in bed</div>
+<p class='sub'>consistency numbers appear after 3 nights: school-night vs weekend bedtime and wake, wake-time spread, weekend shift.</p>
+<h2>Last night, stage by stage</h2>
+<svg viewBox="0 0 860 200" class="viz" role="img" aria-label="Last night, stage by stage"><rect width="860" height="200" fill="var(--surface-1)" rx="12"/><text x="48" y="34" class="ax" text-anchor="end">awake</text><line x1="56" y1="30" x2="844" y2="30" stroke="var(--grid)" stroke-dasharray="2 4"/><text x="48" y="70" class="ax" text-anchor="end">rem</text><line x1="56" y1="66" x2="844" y2="66" stroke="var(--grid)" stroke-dasharray="2 4"/><text x="48" y="106" class="ax" text-anchor="end">light</text><line x1="56" y1="102" x2="844" y2="102" stroke="var(--grid)" stroke-dasharray="2 4"/><text x="48" y="142" class="ax" text-anchor="end">deep</text><line x1="56" y1="138" x2="844" y2="138" stroke="var(--grid)" stroke-dasharray="2 4"/><text x="430" y="106" class="empty" text-anchor="middle">no stage data yet — the mat reports awake / REM / light / deep for each night</text></svg>
+<div class="legend"><i style="background:var(--series-2)"></i>awake<i style="background:#9085e9"></i>REM<i style="background:var(--series-1)"></i>light<i style="background:#199e70"></i>deep</div>
+<h2>Total sleep per night</h2>
 <svg viewBox="0 0 860 260" class="viz" role="img" aria-label="Nightly sleep, no nights yet">
 <rect x="0" y="0" width="860" height="260" fill="var(--surface-1)" rx="12"/>
 <line x1="46" y1="226" x2="848" y2="226" stroke="var(--grid)"/>
@@ -37,6 +46,8 @@ ul{padding-left:18px}li{margin:6px 0}.q{display:block;color:var(--dim);font-size
 <text x="430" y="130" class="empty" text-anchor="middle">no nights on record yet — the mat records tonight; the first row lands after the 08:15 tick</text>
 </svg>
 <div class="legend"><i style="background:var(--series-1)"></i>total sleep<i style="background:var(--series-2)"></i>bedtime (dot height = later)</div>
+<h2>Breathing and snoring (the apnea screen)</h2>
+<svg viewBox="0 0 860 180" class="viz" role="img" aria-label="Breathing disturbances (mat) and snoring, per night"><rect width="860" height="180" fill="var(--surface-1)" rx="12"/><text x="430" y="96" class="empty" text-anchor="middle">no mat nights yet — breathing-disturbance intensity (0–100) is the apnea screen; snoring minutes ride the same row</text></svg>
 
 <h2>Pipeline status</h2>
 <table><tr><th>component</th><th>state</th></tr><tr><td>Sensor</td><td class='ok'>Aura Sensor V2 · battery high · last session Sep 8, 7:21 PM</td></tr><tr><td>Nights on record</td><td class='warn'>0 — first night lands tomorrow morning</td></tr><tr><td>Baseline B0</td><td class='warn'>0/14 nights · 2026-09-08 → 2026-09-21</td></tr><tr><td>Sleep intake</td><td class='warn'>not done yet (link sent 9/7 21:07)</td></tr><tr><td>Morning question</td><td class='warn'>opt-in: none · target: ezra · budget 1/day</td></tr><tr><td>His messages</td><td class='ok'>1 captured · last 2026-09-08 19:22</td></tr><tr><td>Arya → him</td><td class=''>2 sends (intro 9/7, setup 9/8)</td></tr><tr><td>Kill switch</td><td class='ok'>clear (.halt-ezra absent at last tick)</td></tr><tr><td>Evidence base</td><td class='ok'>236 sources · 399 supported claims · critic 20/20 accepted</td></tr></table>
