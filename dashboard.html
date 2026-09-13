@@ -22,15 +22,17 @@ ul{padding-left:18px}li{margin:6px 0}.q{display:block;color:var(--dim);font-size
 .live .dot{width:10px;height:10px;border-radius:50%;background:#6b7280;box-shadow:0 0 0 0 rgba(34,197,94,.6)}
 .live.inbed .dot{background:#22c55e;animation:pulse 2s infinite}.live.up .dot{background:#f59e0b}.live.stale .dot{background:#ef4444}
 @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(34,197,94,.6)}70%{box-shadow:0 0 0 10px rgba(34,197,94,0)}100%{box-shadow:0 0 0 0 rgba(34,197,94,0)}}
+.tonight{margin:8px 0 10px;padding:12px 14px;border-radius:12px;background:#111827;border:1px solid #374151;font-size:15px;line-height:1.5}.tonight .t-head{font-size:12px;letter-spacing:.12em;opacity:.7;margin-bottom:4px}.tonight b{color:#93c5fd}
 .live .age{margin-left:auto;opacity:.7;font-size:13px}.events{font-size:13px;opacity:.85;margin:4px 0 10px}.events span{display:inline-block;margin-right:14px}
 
 </style></head><body><div class="wrap">
 <div class="eyebrow">ezra · 15 · sleep</div><h1>Live dashboard</h1>
 
 <div id="live" class="live" hidden><span class="dot"></span><span id="live-status">connecting to live feed…</span><span id="live-age" class="age"></span></div>
+<div id="tonight" class="tonight" hidden><div class="t-head">TONIGHT <span id="tonight-date"></span></div><div id="tonight-body">…</div></div>
 <div id="live-tiles" class="tiles" hidden></div>
 <div id="live-events" class="events" hidden></div>
-<div class="sub">generated Sun Sep 13, 12:25 AM · charts rebuilt by the tick (every 20 min 5am–noon, then 12:15 / 15:15 / 17:15 / 20:15); the LIVE strip above updates every 60 s from the mat · data-driven, nothing hand-typed · his words are never rendered here</div>
+<div class="sub">generated Sun Sep 13, 1:10 AM · charts rebuilt by the tick (every 20 min 5am–noon, then 12:15 / 15:15 / 17:15 / 20:15); the LIVE strip above updates every 60 s from the mat · data-driven, nothing hand-typed · his words are never rendered here</div>
 <div class="tiles">
 <div class="tile ok"><span class="v">4</span><span class="l">nights on record</span><span class=s>latest 2026-09-12</span></div>
 <div class="tile warn"><span class="v">4/14</span><span class="l">baseline B0</span><span class=s>2026-09-08 → 2026-09-21</span></div>
@@ -90,6 +92,27 @@ ul{padding-left:18px}li{margin:6px 0}.q{display:block;color:var(--dim);font-size
       else {txt='LIVE feed connected — waiting for the first bed-in/bed-out event from the mat';}
       if(stale){L.classList.add('stale'); txt+=' · mat data feed is stale';}
       $('live-status').textContent=txt; $('live-age').textContent=(upd?'mat data '+ago(upd):'no mat data yet')+' · page '+new Date().toLocaleTimeString([], {hour:'numeric',minute:'2-digit'});
+      // TONIGHT panel: what the mat has said about tonight, from every signal we have, even when that is "nothing yet".
+      try{
+        const T=$('tonight'); T.hidden=false;
+        const now=new Date(); const six=new Date(now); if(now.getHours()<12) six.setDate(six.getDate()-1); six.setHours(18,0,0,0);
+        const dl=six.toLocaleDateString([], {weekday:'short', month:'short', day:'numeric'}); $('tonight-date').textContent='· night of '+dl;
+        const evs=(d.events||[]).filter(e=>(e.appli===50||e.appli===51)&&e.startdate&&e.startdate*1000>=six.getTime());
+        const segs=((lat.tonight_segments)||[]).filter(sg=>new Date(sg[1]).getTime()>=six.getTime());
+        const dev=(lat.devices||[])[0]; const lastSess=dev&&dev.last_session_date?new Date(dev.last_session_date*1000):null;
+        let parts=[];
+        if(st.in_bed===true) parts.push('<b>In bed since '+fmtT(st.since)+'</b> (mat bed-in event).');
+        else if(st.in_bed===false&&evs.length) parts.push('<b>Up since '+fmtT(st.since)+'</b> (mat bed-out event).');
+        if(segs.length){ const last=segs[segs.length-1]; parts.push('Mat recording: last state <b>'+last[2]+'</b> at '+new Date(last[1]).toLocaleTimeString([], {hour:'numeric',minute:'2-digit'})+' ('+segs.length+' segments so far).'); }
+        if(!parts.length){
+          parts.push('<b>No signal from the mat yet tonight.</b> No bed-in event and no recorded segments since 6 PM.');
+          if(lastSess) parts.push('Last mat session ended <b>'+lastSess.toLocaleString([], {weekday:'short', hour:'numeric', minute:'2-digit'})+'</b>.');
+          parts.push('Withings publishes a night once the session ends; bed-in/out events arrive live when the mat detects them.');
+        }
+        if(evs.length) parts.push('Events tonight: '+evs.map(e=>e.kind+' '+fmtT(e.startdate)).join(', ')+'.');
+        parts.push('<span style="opacity:.6">feed checked '+(lat.pulled_at?new Date(lat.pulled_at).toLocaleTimeString([], {hour:'numeric',minute:'2-digit'}):'—')+'</span>');
+        $('tonight-body').innerHTML=parts.join(' ');
+      }catch(e2){}
       const n=(lat.nights||[]).slice(-1)[0];
       if(n){ $('live-tiles').hidden=false; $('live-tiles').innerHTML=
         tile('last night ('+n.date+')', mins(n.total_sleep_min), 'asleep', '')+
